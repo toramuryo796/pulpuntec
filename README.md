@@ -1,24 +1,46 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users(管理者)
 
-Things you may want to cover:
+| Column   |Type    | Options     |
+| -------- |------- | ----------- |
+| name     |string  | null: false |
+| password |integer | null: false |
 
-* Ruby version
+### Association
+has_many :article
 
-* System dependencies
+## articles（記事）
 
-* Configuration
+| Column       | Type        | Options                        |
+| ------------ | ----------- | ------------------------------ |
+| title        | string      | null: false                    |
+| content      | text        | null: false                    |
+| user         | references  | null: false, foreign_key: true |
 
-* Database creation
+### Association
+belongs_to :user
+has_many :article_tags
+has_many :tags, through: :article_tags
 
-* Database initialization
+## tags(記事のタグ)
 
-* How to run the test suite
+| Column       | Type      | Options                       |
+| ------------ | --------- | ----------------------------- |
+| name         | string    | null: false, uniqueness: true |
 
-* Services (job queues, cache servers, search engines, etc.)
+### Association
+has_many :article_tags
+has_many : article, through: :article_tags
 
-* Deployment instructions
+## article_tags(中間テーブル)
 
-* ...
+| Column   | Type       | Options                        |
+| -------- | ---------  | -----------------------------  |
+| article  | references | null: false, foreign_key: true |
+| tag      | references | null: false, foreign_key: true |
+
+### Association
+belongs_to : article
+belongs_to : tag
+
